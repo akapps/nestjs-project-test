@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
@@ -26,8 +27,12 @@ export class AccountsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.accountsService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const account = await this.accountsService.findOne(id);
+    if (account == null) {
+      throw new NotFoundException(`No account found with id=${id}`);
+    }
+    return account;
   }
 
   @Patch(':id')

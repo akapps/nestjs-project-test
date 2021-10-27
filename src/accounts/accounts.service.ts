@@ -21,8 +21,8 @@ export class AccountsService {
     return `This action returns all accounts`;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} account`;
+  async findOne(id: string) {
+    return this.accountModel.findById(id);
   }
 
   update(id: string, updateAccountDto: UpdateAccountDto) {
