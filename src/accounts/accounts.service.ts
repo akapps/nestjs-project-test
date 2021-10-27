@@ -1,11 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
+import { Model } from 'mongoose';
+import { Account, AccountDocument } from './entities/account.schema';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class AccountsService {
-  create(createAccountDto: CreateAccountDto) {
-    return 'This action adds a new account';
+  constructor(
+    @InjectModel(Account.name) private accountModel: Model<AccountDocument>,
+  ) {}
+
+  async create(createAccountDto: CreateAccountDto) {
+    const createdAccount = await this.accountModel.create(createAccountDto);
+    console.log('createdAccount:', createdAccount);
+    return createdAccount.save();
   }
 
   findAll() {
