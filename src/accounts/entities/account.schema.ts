@@ -1,22 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MSchema } from 'mongoose';
 
 export type AccountDocument = Account & Document;
 
 const EMAIL_REGEXP = /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-@Schema({ _id: false })
-export class OptInData {
-  @Prop()
+// note: this nested structure could be defined as an annotated class as well, but it makes more sense to make it a simple
+// interface and privately define the schema (will be included in the exported AccountSchema anyway)
+export interface OptInData {
   news_offers: boolean;
-
-  @Prop()
   device_info_upload: boolean;
-
-  @Prop()
   analytics: boolean;
 }
-export const OptInDataSchema = SchemaFactory.createForClass(OptInData);
+const OptInDataSchema = new MSchema(
+  {
+    news_offers: { type: Boolean },
+    device_info_upload: { type: Boolean },
+    analytics: { type: Boolean },
+  },
+  { _id: false },
+);
 
 @Schema({ timestamps: true })
 export class Account {
