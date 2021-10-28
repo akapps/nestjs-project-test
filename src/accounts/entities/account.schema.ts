@@ -40,7 +40,7 @@ export class Account {
     enum: ['pending', 'active', 'blocked'],
     default: 'pending',
   })
-  status: string;
+  status: 'pending' | 'active' | 'blocked';
 
   @Prop()
   phone?: string;

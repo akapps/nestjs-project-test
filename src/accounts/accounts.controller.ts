@@ -19,13 +19,16 @@ import { IncompatibleRolesFilter } from './filters/incompatible-roles.filter';
 export class AccountsController {
   constructor(private readonly accountsService: AccountsService) {}
 
+  /**
+   * Creates a new account
+   */
   @Post()
   async create(@Body() createAccountDto: CreateAccountDto) {
     return this.accountsService.create(createAccountDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): string {
     return this.accountsService.findAll();
   }
 
