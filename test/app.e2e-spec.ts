@@ -25,7 +25,7 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/health')
       .expect(200)
-      .expect('up-and-running\n');
+      .expect('up-and-running, ENV=default\n');
   });
 
   afterAll(async () => {
