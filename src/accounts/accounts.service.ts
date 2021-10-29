@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { Model } from 'mongoose';
@@ -8,13 +8,15 @@ import { IncompatibleRolesError } from './filters/incompatible-roles.filter';
 
 @Injectable()
 export class AccountsService {
+  private readonly logger = new Logger(AccountsService.name);
+
   constructor(
     @InjectModel(Account.name) private accountModel: Model<AccountDocument>,
   ) {}
 
   async create(createAccountDto: CreateAccountDto) {
     const createdAccount = await this.accountModel.create(createAccountDto);
-    console.log('createdAccount:', createdAccount);
+    this.logger.log('createdAccount:', createdAccount);
     return createdAccount.save();
   }
 
