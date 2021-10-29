@@ -12,6 +12,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class OptInStruct {
   @IsBoolean()
@@ -25,9 +26,13 @@ export class OptInStruct {
 }
 
 export class CreateAccountDto {
+  /**
+   * @example foo@bar.com
+   */
   @IsEmail()
   email: string;
 
+  @ApiProperty({ example: 'google' })
   @IsString()
   auth_provider: string;
 
