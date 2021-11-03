@@ -8,14 +8,17 @@ import {
   Delete,
   NotFoundException,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { IncompatibleRolesFilter } from './filters/incompatible-roles.filter';
+import { JwtAuthGuard } from '../auth';
 
 @Controller('accounts')
 @UseFilters(IncompatibleRolesFilter) // broader filters could be bound to the app: app.useGlobalFilters(..)
+@UseGuards(JwtAuthGuard)
 export class AccountsController {
   constructor(private readonly accountsService: AccountsService) {}
 
